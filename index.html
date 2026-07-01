@@ -528,7 +528,7 @@
           </svg>
         </div>
         <input type="text" class="search-query-input" id="searchQueryInput" placeholder="Tanyakan apa saja ke Gemini AI..." required>
-        <button type="submit" class="submit-prompt-btn" id="submitBtn" disabled>
+        <button type="submit" class="submit-prompt-btn" id="submitBtn">
           <span>Kirim</span>
           <!-- Paper Plane Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -599,47 +599,6 @@
     const copyBtnText = document.getElementById('copyBtnText');
     const copyBtnIcon = document.getElementById('copyBtnIcon');
 
-    // State Variables
-    let geminiApiKey = '';
-    let isConfigLoaded = false;
-
-    // Load configuration at startup
-    document.addEventListener('DOMContentLoaded', () => {
-      loadConfig();
-    });
-
-    // Fetch config.json file containing the API Key
-    async function loadConfig() {
-      try {
-        const response = await fetch('config.json');
-        if (!response.ok) {
-          throw new Error('Gagal memuat file config.json');
-        }
-        
-        const data = await response.json();
-        const key = data.gemini_api_key;
-        
-        if (!key || key === 'YOUR_GEMINI_API_KEY_HERE') {
-          showConfigWarning('Gemini API Key belum dikonfigurasi di config.json oleh Web Master.');
-          submitBtn.disabled = true;
-        } else {
-          geminiApiKey = key.trim();
-          isConfigLoaded = true;
-          keyWarning.style.display = 'none';
-          submitBtn.disabled = false;
-        }
-      } catch (err) {
-        console.error(err);
-        showConfigWarning('Gagal memuat konfigurasi API Key (config.json tidak ditemukan atau tidak valid).');
-        submitBtn.disabled = true;
-      }
-    }
-
-    function showConfigWarning(message) {
-      keyWarningMessage.textContent = message;
-      keyWarning.style.display = 'flex';
-    }
-
     // Simple markdown parsing helper
     function parseMarkdown(text) {
       if (!text) return '';
@@ -692,17 +651,12 @@
       return formattedLines.join('\n');
     }
 
-    // Call Gemini API and search
+    // Call Vercel Serverless Function to query Gemini AI
     geminiSearchForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const query = searchQueryInput.value.trim();
       if (!query) return;
-
-      if (!isConfigLoaded || !geminiApiKey) {
-        showConfigWarning('API Key tidak tersedia. Silakan periksa file config.json.');
-        return;
-      }
 
       // UI State: Reset previous content, show loaders, disable search
       resultContainer.style.display = 'none';
@@ -715,31 +669,22 @@
       skeletonLoader.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
       try {
-        // Use gemini-2.5-flash as requested and standardized
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              contents: [{
-                parts: [{ text: query }]
-              }]
-            })
-          }
-        );
+        const response = await fetch('/api/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ query: query })
+        });
+
+        const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          const errMsg = errData.error?.message || `Error ${response.status}: ${response.statusText}`;
+          const errMsg = data.error || `Error ${response.status}: ${response.statusText}`;
           throw new Error(errMsg);
         }
-
-        const data = await response.json();
         
-        // Parse candidate response
+        // Parse candidate response from proxy response
         const candidate = data.candidates?.[0];
         const partText = candidate?.content?.parts?.[0]?.text;
         
@@ -761,10 +706,15 @@
         console.error(err);
         
         let customErrorHTML = '';
-        if (err.message.includes('API_KEY_INVALID') || err.message.includes('API key not valid')) {
+        if (err.message.includes('tidak dikonfigurasi') || err.message.includes('not configured')) {
           customErrorHTML = `
-            <p style="color: #ff3366; font-weight: 600;">API Key Salah / Tidak Valid</p>
-            <p>Silakan hubungi Web Master untuk memperbarui file config.json dengan kunci yang valid.</p>
+            <p style="color: #ff3366; font-weight: 600;">Environment Variable Belum Diatur</p>
+            <p>Web Master belum mengonfigurasi variable <code>GEMINI_API_KEY</code> di server environment atau file .env lokal.</p>
+          `;
+        } else if (err.message.includes('API_KEY_INVALID') || err.message.includes('API key not valid')) {
+          customErrorHTML = `
+            <p style="color: #ff3366; font-weight: 600;">API Key Tidak Valid</p>
+            <p>Kunci API Gemini yang dikonfigurasi oleh Web Master di environment variable tidak valid.</p>
           `;
         } else {
           customErrorHTML = `
