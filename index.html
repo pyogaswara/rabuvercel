@@ -79,9 +79,6 @@
 
     /* Header styling */
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: 35px;
     }
 
@@ -92,176 +89,7 @@
       background: linear-gradient(135deg, #fff 30%, #d8b4fe 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-align: left;
-    }
-
-    /* Settings Button & Panel */
-    .settings-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      color: var(--text-main);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      z-index: 10;
-    }
-
-    .settings-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--primary);
-      color: #fff;
-      transform: rotate(45deg);
-    }
-
-    /* Glass Modal/Overlay for API Key Configuration */
-    .settings-panel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(11, 8, 19, 0.95);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 40px;
-      border-radius: 24px;
-      z-index: 9;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      transform: scale(0.95);
-    }
-
-    .settings-panel.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1);
-    }
-
-    .settings-panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .settings-panel h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .close-panel-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 1.5rem;
-      transition: color 0.2s;
-    }
-
-    .close-panel-btn:hover {
-      color: #fff;
-    }
-
-    .settings-description {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
-
-    .settings-description a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .settings-description a:hover {
-      text-decoration: underline;
-    }
-
-    .input-wrapper {
-      position: relative;
-      margin-bottom: 24px;
-    }
-
-    .settings-input {
-      width: 100%;
-      padding: 14px 45px 14px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 0.95rem;
-      outline: none;
-      transition: all 0.3s;
-    }
-
-    .settings-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.25);
-    }
-
-    .toggle-visibility-btn {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .toggle-visibility-btn:hover {
-      color: #fff;
-    }
-
-    .save-settings-btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .save-settings-btn:hover {
-      background: var(--primary-hover);
-      box-shadow: var(--shadow-glow);
-    }
-
-    .save-status {
-      margin-top: 12px;
-      font-size: 0.85rem;
       text-align: center;
-      min-height: 20px;
-    }
-
-    .save-status.success {
-      color: #2ec4b6;
     }
 
     /* Button Group styling */
@@ -441,7 +269,7 @@
       height: 16px;
     }
 
-    /* Warning message about missing API key */
+    /* Warning message about missing API key config */
     .key-warning {
       display: flex;
       align-items: center;
@@ -453,24 +281,12 @@
       font-size: 0.85rem;
       color: #ffb900;
       margin-top: 10px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .key-warning:hover {
-      background: rgba(255, 185, 0, 0.15);
-      border-color: rgba(255, 185, 0, 0.3);
     }
 
     .key-warning svg {
       width: 16px;
       height: 16px;
       flex-shrink: 0;
-    }
-
-    .key-warning span {
-      text-decoration: underline;
-      font-weight: 500;
     }
 
     /* Result Panel */
@@ -681,13 +497,6 @@
     <!-- Header -->
     <header>
       <h1>Cari dengan Mesin Telusur</h1>
-      <button class="settings-btn" id="openSettingsBtn" title="Pengaturan API Key">
-        <!-- Settings Gear Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-      </button>
     </header>
 
     <!-- Navigation Buttons -->
@@ -719,7 +528,7 @@
           </svg>
         </div>
         <input type="text" class="search-query-input" id="searchQueryInput" placeholder="Tanyakan apa saja ke Gemini AI..." required>
-        <button type="submit" class="submit-prompt-btn" id="submitBtn">
+        <button type="submit" class="submit-prompt-btn" id="submitBtn" disabled>
           <span>Kirim</span>
           <!-- Paper Plane Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -737,7 +546,7 @@
           <line x1="12" y1="9" x2="12" y2="13"></line>
           <line x1="12" y1="17" x2="12.01" y2="17"></line>
         </svg>
-        <div>Gemini API Key belum dikonfigurasi. Silakan <span>Klik di sini untuk mengatur kunci</span>.</div>
+        <div id="keyWarningMessage">Memuat konfigurasi Gemini API...</div>
       </div>
     </div>
 
@@ -773,60 +582,16 @@
         <!-- Rendered response goes here -->
       </div>
     </div>
-
-    <!-- API Key Settings Panel overlay -->
-    <div class="settings-panel" id="settingsPanel">
-      <div class="settings-panel-header">
-        <h2>Pengaturan Gemini API</h2>
-        <button class="close-panel-btn" id="closeSettingsBtn" title="Tutup">&times;</button>
-      </div>
-      <p class="settings-description">
-        Masukkan Kunci API Gemini Anda di bawah ini. Kunci ini hanya akan disimpan secara lokal di dalam browser Anda (localStorage) dan digunakan langsung untuk menghubungi API Google.
-        <br><br>
-        Belum memiliki kunci? Dapatkan secara gratis di 
-        <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.
-      </p>
-      
-      <div class="input-wrapper">
-        <input type="password" class="settings-input" id="apiKeyInput" placeholder="AIzaSy...">
-        <button class="toggle-visibility-btn" id="toggleKeyVisibilityBtn" type="button" title="Tampilkan/Sembunyikan">
-          <!-- Eye icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="eyeIcon">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
-        </button>
-      </div>
-
-      <button class="save-settings-btn" id="saveSettingsBtn">
-        <!-- Save Disk Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-          <polyline points="17 21 17 13 7 13 7 21"></polyline>
-          <polyline points="7 3 7 8 15 8"></polyline>
-        </svg>
-        Simpan Kunci API
-      </button>
-      
-      <div class="save-status" id="saveStatus"></div>
-    </div>
   </div>
 
   <script>
     // DOM Elements
-    const openSettingsBtn = document.getElementById('openSettingsBtn');
-    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
-    const settingsPanel = document.getElementById('settingsPanel');
-    const apiKeyInput = document.getElementById('apiKeyInput');
-    const toggleKeyVisibilityBtn = document.getElementById('toggleKeyVisibilityBtn');
-    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
-    const saveStatus = document.getElementById('saveStatus');
-    const keyWarning = document.getElementById('keyWarning');
-    const eyeIcon = document.getElementById('eyeIcon');
-
     const geminiSearchForm = document.getElementById('geminiSearchForm');
     const searchQueryInput = document.getElementById('searchQueryInput');
     const submitBtn = document.getElementById('submitBtn');
+    const keyWarning = document.getElementById('keyWarning');
+    const keyWarningMessage = document.getElementById('keyWarningMessage');
+    
     const skeletonLoader = document.getElementById('skeletonLoader');
     const resultContainer = document.getElementById('resultContainer');
     const resultCard = document.getElementById('resultCard');
@@ -835,88 +600,45 @@
     const copyBtnIcon = document.getElementById('copyBtnIcon');
 
     // State Variables
-    let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+    let geminiApiKey = '';
+    let isConfigLoaded = false;
 
-    // Initialize Page State
+    // Load configuration at startup
     document.addEventListener('DOMContentLoaded', () => {
-      apiKeyInput.value = geminiApiKey;
-      checkApiKeyConfigured();
+      loadConfig();
     });
 
-    // Verify if API Key exists and show warning if not
-    function checkApiKeyConfigured() {
-      if (!geminiApiKey) {
-        keyWarning.style.display = 'flex';
+    // Fetch config.json file containing the API Key
+    async function loadConfig() {
+      try {
+        const response = await fetch('config.json');
+        if (!response.ok) {
+          throw new Error('Gagal memuat file config.json');
+        }
+        
+        const data = await response.json();
+        const key = data.gemini_api_key;
+        
+        if (!key || key === 'YOUR_GEMINI_API_KEY_HERE') {
+          showConfigWarning('Gemini API Key belum dikonfigurasi di config.json oleh Web Master.');
+          submitBtn.disabled = true;
+        } else {
+          geminiApiKey = key.trim();
+          isConfigLoaded = true;
+          keyWarning.style.display = 'none';
+          submitBtn.disabled = false;
+        }
+      } catch (err) {
+        console.error(err);
+        showConfigWarning('Gagal memuat konfigurasi API Key (config.json tidak ditemukan atau tidak valid).');
         submitBtn.disabled = true;
-      } else {
-        keyWarning.style.display = 'none';
-        submitBtn.disabled = false;
       }
     }
 
-    // Toggle API settings modal
-    openSettingsBtn.addEventListener('click', () => {
-      settingsPanel.classList.add('active');
-      apiKeyInput.focus();
-    });
-
-    closeSettingsBtn.addEventListener('click', () => {
-      settingsPanel.classList.remove('active');
-      saveStatus.textContent = '';
-      saveStatus.className = 'save-status';
-    });
-
-    // Alert click shortcuts configuration
-    keyWarning.addEventListener('click', () => {
-      settingsPanel.classList.add('active');
-      apiKeyInput.focus();
-    });
-
-    // Show/hide password key visibility
-    toggleKeyVisibilityBtn.addEventListener('click', () => {
-      if (apiKeyInput.type === 'password') {
-        apiKeyInput.type = 'text';
-        // Eye off icon
-        eyeIcon.innerHTML = `
-          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-          <line x1="1" y1="1" x2="23" y2="23"></line>
-        `;
-      } else {
-        apiKeyInput.type = 'password';
-        // Eye icon
-        eyeIcon.innerHTML = `
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        `;
-      }
-    });
-
-    // Save settings
-    saveSettingsBtn.addEventListener('click', () => {
-      const inputVal = apiKeyInput.value.trim();
-      
-      if (!inputVal) {
-        saveStatus.textContent = 'Kunci API tidak boleh kosong!';
-        saveStatus.className = 'save-status error';
-        saveStatus.style.color = '#ff3366';
-        return;
-      }
-
-      localStorage.setItem('gemini_api_key', inputVal);
-      geminiApiKey = inputVal;
-      
-      saveStatus.textContent = 'Kunci API berhasil disimpan!';
-      saveStatus.className = 'save-status success';
-      
-      checkApiKeyConfigured();
-
-      // Automatically close settings after 1 second
-      setTimeout(() => {
-        settingsPanel.classList.remove('active');
-        saveStatus.textContent = '';
-        saveStatus.className = 'save-status';
-      }, 1000);
-    });
+    function showConfigWarning(message) {
+      keyWarningMessage.textContent = message;
+      keyWarning.style.display = 'flex';
+    }
 
     // Simple markdown parsing helper
     function parseMarkdown(text) {
@@ -977,9 +699,8 @@
       const query = searchQueryInput.value.trim();
       if (!query) return;
 
-      if (!geminiApiKey) {
-        settingsPanel.classList.add('active');
-        apiKeyInput.focus();
+      if (!isConfigLoaded || !geminiApiKey) {
+        showConfigWarning('API Key tidak tersedia. Silakan periksa file config.json.');
         return;
       }
 
@@ -1043,7 +764,7 @@
         if (err.message.includes('API_KEY_INVALID') || err.message.includes('API key not valid')) {
           customErrorHTML = `
             <p style="color: #ff3366; font-weight: 600;">API Key Salah / Tidak Valid</p>
-            <p>Silakan klik tombol pengaturan di kanan atas dan masukkan Kunci API Gemini yang valid.</p>
+            <p>Silakan hubungi Web Master untuk memperbarui file config.json dengan kunci yang valid.</p>
           `;
         } else {
           customErrorHTML = `
